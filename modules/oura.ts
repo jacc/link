@@ -1,3 +1,5 @@
+import { env } from "@utils/envsafe";
+
 function getYesterdayDate(): string {
   let date = new Date();
   date.setDate(date.getDate() - 2);
@@ -37,42 +39,49 @@ export async function Oura() {
   // Format the adjusted EST date as an ISO string
   const estTimestamp = estDate.toISOString();
 
-  const sleep = await fetch(
-    `https://api.ouraring.com/v1/sleep?access_token=${
-      process.env.OURA
-    }&start=${getYesterdayDate()}&end=${getYesterdayDate()}`
-  );
-  const sleepBody = (await sleep.json()) as any;
+  const yesterdayDate = getYesterdayDate();
+  const todayDate = getTodayDate();
+  try {
+    const [sleepBody, activityBody, heartRateBody] = await Promise.all([
+      fetch(
+        `https://api.ouraring.com/v1/sleep?access_token=${env.OURA}&start=${yesterdayDate}&end=${yesterdayDate}`
+      ).then((res) => res.json() as any),
+      fetch(
+        `https://api.ouraring.com/v1/activity?access_token=${env.OURA}&start=${todayDate}&end=${todayDate}`
+      ).then((res) => res.json() as any),
+      fetch(
+        `https://api.ouraring.com/v2/usercollection/heartrate?start_timestamp=${estTimestamp}`,
+        {
+          headers: {
+            Authorization: `Bearer ${env.OURA}`,
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((res: any) => res.data.slice(-1)),
+    ]);
 
-  const activity = await fetch(
-    `https://api.ouraring.com/v1/activity?access_token=${
-      process.env.OURA
-    }&start=${getTodayDate()}&end=${getTodayDate()}`
-  );
-  const activityBody = (await activity.json()) as any;
-
-  const heartRate = await fetch(
-    `https://api.ouraring.com/v2/usercollection/heartrate?start_timestamp=${estTimestamp}`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.OURA}`,
+    return {
+      sleep: {
+        time: secondsToHms(sleepBody.sleep[0].duration),
+        efficiency: sleepBody.sleep[0].score_efficiency,
       },
-    }
-  );
-  const heartRateBody = ((await heartRate.json()) as any).data.slice(-1);
+      activity: {
+        calories: activityBody.activity[0].cal_active,
+        steps: activityBody.activity[0].daily_movement,
+      },
+      heart: {
+        bpm: heartRateBody[0].bpm,
+        awake: heartRateBody[0].source == "awake" || "live" ? true : false,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error);
 
-  return {
-    sleep: {
-      time: secondsToHms(sleepBody.sleep[0].duration),
-      efficiency: sleepBody.sleep[0].score_efficiency,
-    },
-    activity: {
-      calories: activityBody.activity[0].cal_active,
-      steps: activityBody.activity[0].daily_movement,
-    },
-    heart: {
-      bpm: heartRateBody[0].bpm,
-      awake: heartRateBody[0].source == "awake" || "live" ? true : false,
-    },
-  };
+    return {
+      sleep: null,
+      activity: null,
+      heart: null,
+    };
+  }
 }

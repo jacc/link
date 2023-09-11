@@ -1,6 +1,8 @@
+import { env } from "@utils/envsafe";
+
 export async function Steam() {
   const data = await fetch(
-    `https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v1/?key=${process.env.STEAM_KEY}&steamid=${process.env.STEAM_ID}`
+    `https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v1/?key=${env.STEAM_KEY}&steamid=${env.STEAM_ID}`
   );
   const json = (await data.json()) as any;
 

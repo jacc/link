@@ -1,3 +1,5 @@
+import { env } from "@utils/envsafe";
+
 function getFarDate(): string {
   let date = new Date();
   date.setDate(date.getDate() - 7);
@@ -31,7 +33,7 @@ export async function Wakatime() {
     `https://wakatime.com/api/v1/users/current/summaries?start=${getFarDate()}&end=${getTodayDate()}`,
     {
       headers: {
-        Authorization: `Basic ${Buffer.from(`${process.env.WAKATIME}`).toString(
+        Authorization: `Basic ${Buffer.from(`${env.WAKATIME}`).toString(
           "base64"
         )}`,
       },
