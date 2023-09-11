@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "lib": ["ESNext"],
     "module": "esnext",
     "target": "esnext",
@@ -17,6 +18,9 @@
     "allowJs": true,
     "types": [
       "bun-types" // add Bun global
-    ]
+    ],
+    "paths": {
+      "@utils/*": ["utils/*"]
+    }
   }
 }
