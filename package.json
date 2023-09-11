@@ -1,0 +1,16 @@
+{
+  "name": "jackapi",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@flydotio/dockerfile": "latest",
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "baojs": "^0.2.1",
+    "fastify": "^4.22.2"
+  }
+}
