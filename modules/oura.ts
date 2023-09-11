@@ -37,8 +37,6 @@ export async function Oura() {
   // Format the adjusted EST date as an ISO string
   const estTimestamp = estDate.toISOString();
 
-  console.log(estTimestamp);
-
   const sleep = await fetch(
     `https://api.ouraring.com/v1/sleep?access_token=${
       process.env.OURA

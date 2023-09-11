@@ -15,6 +15,10 @@ app.get("/", async (ctx) => {
     oura,
     coding,
     steam,
+    src: {
+      github: "https://github.com/jacc/api",
+      creator: "https://jack.bio",
+    },
   });
 });
 
