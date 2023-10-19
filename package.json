@@ -1,17 +1,15 @@
 {
-  "name": "jackapi",
-  "module": "index.ts",
-  "type": "module",
-  "devDependencies": {
-    "@flydotio/dockerfile": "latest",
-    "bun-types": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
+  "name": "link",
+  "version": "1.0.50",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
-    "baojs": "^0.2.1",
-    "envsafe": "^2.0.3",
-    "fastify": "^4.22.2"
-  }
+    "elysia": "latest"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "module": "src/index.js"
 }
