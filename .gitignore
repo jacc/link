@@ -40,5 +40,11 @@ yarn-error.log*
 **/*.log
 package-lock.json
 **/*.bun
+bun.lockb
+fly.toml
+.dockerignore
+bun.lockb
+Dockerfile
 
 .env
+bun.lockb

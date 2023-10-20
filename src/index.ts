@@ -3,7 +3,9 @@ import { Elysia } from "elysia";
 import { getPresence } from "./modules/misc/discord";
 import { getSteam } from "./modules/misc/steam";
 import { getAlbums } from "./modules/music/albums";
-import { currentStream } from "./modules/music/current";
+import { currentStream } from "./modules/music/streaming";
+
+const port = process.env.PORT ?? 3000;
 
 const app = new Elysia()
   .use(cors())
@@ -11,7 +13,7 @@ const app = new Elysia()
     routes: [
       {
         "/music": {
-          "/current": "GET",
+          "/streaming": "GET",
           "/albums": "GET",
         },
       },
@@ -33,4 +35,8 @@ const app = new Elysia()
       .get("/steam", async () => getSteam)
       .get("/discord", async () => getPresence)
   )
-  .listen(3000);
+  .listen(port);
+
+console.info(
+  `🦊 Elysia is running at http://${app.server?.hostname}:${app.server?.port}`
+);

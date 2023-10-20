@@ -13,10 +13,12 @@ export async function currentStream() {
 
   return track["@attr"]
     ? {
-        artist: track.artist["#text"],
-        album: track.album["#text"],
-        track: track.name,
-        cover: track.image[3]["#text"],
+        streaming: {
+          artist: track.artist["#text"],
+          album: track.album["#text"],
+          track: track.name,
+          cover: track.image[3]["#text"],
+        },
       }
-    : null;
+    : { streaming: null };
 }
