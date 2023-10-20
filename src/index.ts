@@ -27,7 +27,7 @@ const app = new Elysia()
   }))
   .group("/music", (music) =>
     music
-      .get("/current", async () => currentStream)
+      .get("/streaming", async () => currentStream)
       .get("/albums", async () => getAlbums)
   )
   .group("/fun", (fun) =>
