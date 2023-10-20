@@ -1,9 +1,13 @@
 import { cors } from "@elysiajs/cors";
 import { Elysia } from "elysia";
-import { music } from "./modules/music/albums";
+import { getAlbums } from "./modules/music/albums";
+import { currentStream } from "./modules/music/current";
 
 const app = new Elysia()
   .use(cors())
-  .use(music)
-  .get("/", () => "hello")
+  .group("/music", (music) =>
+    music
+      .get("/current", async () => currentStream)
+      .get("/albums", async () => getAlbums)
+  )
   .listen(3000);
