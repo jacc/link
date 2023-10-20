@@ -9,4 +9,5 @@ export const env = envsafe({
   STEAM_ID: str(),
   LASTFM_TOKEN: str(),
   LASTFM_USER: str(),
+  DISCORD_ID: str(),
 });
