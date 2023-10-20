@@ -7,6 +7,22 @@ import { currentStream } from "./modules/music/current";
 
 const app = new Elysia()
   .use(cors())
+  .get("/", async () => ({
+    routes: [
+      {
+        "/music": {
+          "/current": "GET",
+          "/albums": "GET",
+        },
+      },
+      {
+        "/fun": {
+          "/steam": "GET",
+          "/discord": "GET",
+        },
+      },
+    ],
+  }))
   .group("/music", (music) =>
     music
       .get("/current", async () => currentStream)
