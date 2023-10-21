@@ -12,11 +12,12 @@ export async function getPresence() {
   );
 
   return {
-    coding: coding.details
-      ? {
-          state: coding.state,
-          details: coding.details,
-        }
-      : null,
+    coding:
+      coding && coding.details
+        ? {
+            state: coding.state,
+            details: coding.details,
+          }
+        : null,
   };
 }
